@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Seller – Add Crop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+:root{
+  --primary:#28a745; --danger:#dc3545; --bg:#f0f2f5; --font:"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background-image:linear-gradient(rgba(40, 167, 69, 0.2), rgba(220, 53, 69, 0.1)),url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80');background-size:cover;background-position:center;background-attachment:fixed;background-repeat:no-repeat;display:flex;justify-content:center;align-items:start;min-height:100vh;padding:2rem}
+.card{
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  padding: 2rem;
+  width: 1100px;
+  max-width: 95vw;
+  border-radius: 1.5rem;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+h2{
+  color:var(--primary);
+  text-align:center;
+  margin-bottom:1.5rem;
+  font-size:1.8rem;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+  position: relative;
+}
+.form-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  position: relative;
+}
+.form-grid .full-width{
+  grid-column: 1 / -1;
+}
+label{display:block;margin-bottom:.3rem;font-size:.9rem;color:#333;font-weight:600}
+input[type="text"],input[type="date"],input[type="number"],textarea,select{
+  width:100%;
+  padding:.7rem .9rem;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius:.5rem;
+  font-size:.95rem;
+  color: #000;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+input[type="text"]:focus,input[type="date"]:focus,input[type="number"]:focus,textarea:focus,select:focus{
+  outline: none;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid rgba(40, 167, 69, 0.8);
+  color: #000;
+  box-shadow: 
+    0 0 20px rgba(40, 167, 69, 0.4),
+    0 4px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+/* Fix autocomplete text visibility */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.6) inset !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000 !important;
+}
+/* Fix date picker calendar visibility - Dark gray calendar icon */
+input[type="date"] {
+  color-scheme: light;
+  background: rgba(255, 255, 255, 0.8) !important;
+  position: relative;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.3) contrast(1.2);
+  opacity: 0.8;
+  width: 18px;
+  height: 18px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  filter: invert(0.2) contrast(1.3);
+}
+input[type="date"]::-webkit-datetime-edit {
+  color: #000 !important;
+  font-weight: 500;
+}
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 2px 4px;
+}
+input[type="date"]::-webkit-datetime-edit-text {
+  color: #000 !important;
+  padding: 0 2px;
+}
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #000 !important;
+  font-weight: 500;
+}
+textarea{height:90px;resize:none}
+.upload-area{
+  border:2px dashed rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius:.8rem;
+  padding:2rem;
+  text-align:center;
+  color:#555;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+.upload-area.dragover{
+  border-color:var(--primary);
+  color:var(--primary);
+  background: rgba(40, 167, 69, 0.1);
+  transform: scale(1.02);
+}
+.upload-area img{max-width:100%;max-height:300px;height:auto;display:block;margin:auto;border-radius:.5rem}
+.error{color:var(--danger);font-size:.85rem;margin-top:.3rem;font-weight:600;text-shadow: 0 1px 2px rgba(255,255,255,0.8)}
+button{
+  width:100%;
+  padding:1rem 0;
+  margin-top:2rem;
+  background: rgba(40, 167, 69, 0.8);
+  color:#fff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius:.5rem;
+  cursor:pointer;
+  font-size:1.1rem;
+  font-weight:600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  box-shadow: 
+    0 4px 15px rgba(40, 167, 69, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+button:hover::before {
+  left: 100%;
+}
+button:hover{
+  background: rgba(33, 136, 56, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 25px rgba(40, 167, 69, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.top-links{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:1.5rem;position:relative}
+.top-links a{
+  font-size:.9rem;
+  color:#333;
+  text-decoration:none;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  padding:.5rem 1rem;
+  border-radius:.5rem;
+  transition: all 0.3s ease;
+  font-weight:500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.top-links a:hover{
+  background: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.small-muted{font-size:.9rem;color:#555;margin-top:1rem;text-align:center;font-weight:500}
+
+/* Crop Modal - v2 */
+.crop-modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  min-height:100vh;
+  background:rgba(0,0,0,0.85);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+  padding:2vh 1rem;
+  box-sizing:border-box;
+  overflow-y:auto;
+}
+.crop-modal.active{
+  display:flex;
+}
+.crop-container{
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding:1.2rem;
+  border-radius:1rem;
+  max-width:600px;
+  width:100%;
+  max-height:80vh;
+  overflow-y:auto;
+  position:relative;
+  box-shadow: 0 16px 64px rgba(0,0,0,.5);
+  margin:auto;
+  align-self:center;
+}
+.crop-container h3{
+  color:var(--primary);
+  margin-bottom:0.5rem;
+  text-align:center;
+  font-size:1.2rem;
+}
+.crop-canvas-wrapper{
+  position:relative;
+  max-width:100%;
+  max-height:350px;
+  margin:0.5rem auto;
+  border:2px solid #ddd;
+  border-radius:0.5rem;
+  overflow:hidden;
+  background:#f5f5f5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.crop-canvas-wrapper canvas{
+  max-width:100%;
+  max-height:350px;
+  display:block;
+  cursor:move;
+}
+.crop-controls{
+  display:flex;
+  gap:0.6rem;
+  margin-top:1rem;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.crop-controls button{
+  padding:0.6rem 1.2rem;
+  margin:0;
+  width:auto;
+  font-size:0.9rem;
+}
+.crop-controls button.cancel-btn{
+  background:rgba(108, 117, 125, 0.8);
+}
+.crop-controls button.cancel-btn:hover{
+  background:rgba(86, 94, 100, 0.9);
+}
+.crop-info{
+  text-align:center;
+  color:#666;
+  font-size:0.85rem;
+  margin-top:0.5rem;
+  font-weight:500;
+}
+</style>
+</head>
+<body>
+
+<!-- Language Selector -->
+<select id="languageSelector" style="position:fixed;top:1rem;right:1rem;z-index:1000;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.25);backdrop-filter:blur(20px);border:2px solid rgba(255,255,255,0.4);border-radius:10px;font-size:0.9rem;font-weight:600;color:#333;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(0,0,0,0.2);width:auto;min-width:120px" onchange="i18n.setLanguage(this.value)">
+  <option value="en">🇬🇧 EN</option>
+  <option value="hi">🇮🇳 हिंदी</option>
+  <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+  <option value="ml">🇮🇳 മലയാളം</option>
+</select>
+
+<div class="card" id="formCard">
+  <div class="top-links">
+    <button onclick="window.history.back()" style="padding:0.5rem 1rem;background:rgba(255,255,255,0.4);backdrop-filter:blur(15px);color:#333;border:1.5px solid rgba(255,255,255,0.6);font-weight:600;cursor:pointer;border-radius:0.5rem;transition:all 0.3s ease;margin-right:1rem" onmouseover="this.style.background='rgba(255,255,255,0.6)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.4)';this.style.transform='translateY(0)'">← Back</button>
+    <a href="Listed_files.html">View Listed Products</a>
+  </div>
+
+  <div style="text-align: center; margin: 1rem 0;">
+    <img src="GTN_logo.png" alt="GTN Logo" style="width: 70px; height: 70px; object-fit: contain;">
+  </div>
+  <h2 id="title">🌾 Add Crop Listing</h2>
+
+  <!-- Crop Modal -->
+  <div class="crop-modal" id="cropModal">
+    <div class="crop-container">
+      <h3>✂️ Crop Your Image</h3>
+      <p class="crop-info">Click and drag to pan the image. Use the controls below to adjust the crop area.</p>
+      <div class="crop-canvas-wrapper" id="cropCanvasWrapper">
+        <canvas id="cropCanvas"></canvas>
+      </div>
+      <div class="crop-controls">
+        <button type="button" id="zoomInBtn">🔍 Zoom In</button>
+        <button type="button" id="zoomOutBtn">🔍 Zoom Out</button>
+        <button type="button" id="resetCropBtn">🔄 Reset</button>
+        <button type="button" class="cancel-btn" id="cancelCropBtn">❌ Cancel</button>
+        <button type="button" id="applyCropBtn">✅ Apply Crop</button>
+      </div>
+      <p class="crop-info">Original aspect ratio preserved</p>
+    </div>
+  </div>
+
+  <form id="cropForm" enctype="multipart/form-data" novalidate>
+    <div class="form-grid">
+      <div>
+        <label for="productName">Product Name *</label>
+        <input id="productName" name="productName" type="text" placeholder="e.g. Organic Tomatoes" />
+        <div class="error" id="nameError"></div>
+      </div>
+
+      <div>
+        <label for="category">Category *</label>
+        <select id="category" name="category">
+          <option value="">-- Select Category --</option>
+          <option>Vegetables</option>
+          <option>Fruits</option>
+          <option>Cereals</option>
+          <option>Dairy</option>
+          <option>Grains</option>
+        </select>
+        <div class="error" id="catError"></div>
+      </div>
+
+      <div>
+        <label for="harvestDate">Harvested Date *</label>
+        <input id="harvestDate" name="harvestDate" type="date" />
+        <div class="error" id="dateError"></div>
+      </div>
+
+      <div>
+        <label for="location">Location *</label>
+        <input id="location" name="location" type="text" placeholder="e.g. Farmhouse, Jaipur" />
+        <div class="error" id="locError"></div>
+      </div>
+
+      <div>
+        <label for="price">Price per Unit (Rs) *</label>
+        <input id="price" name="price" type="number" min="0" step="1" placeholder="e.g. 100" />
+        <div class="error" id="priceError"></div>
+      </div>
+
+      <div>
+        <label for="bestBefore">Best Before Date *</label>
+        <input id="bestBefore" name="bestBefore" type="date" />
+        <div class="error" id="bestBeforeError"></div>
+      </div>
+
+      <div class="full-width">
+        <label for="description">Short Description *</label>
+        <textarea id="description" name="description" placeholder="Tell us a bit about the crop..."></textarea>
+        <div class="error" id="descError"></div>
+      </div>
+
+      <div class="full-width">
+        <label>Product Image (JPEG/PNG) *</label>
+        <div class="upload-area" id="dropArea">📸 Drag & drop image here or click to select</div>
+        <input id="imageInput" type="file" accept="image/*" style="display:none" />
+        <div class="error" id="imgError"></div>
+      </div>
+    </div>
+
+    <button type="submit" id="submitBtn">✅ Submit Listing</button>
+    <div class="small-muted">💡 After saving you'll be redirected to the listed products page.</div>
+  </form>
+</div>
+
+<script>
+(function(){
+  const API_URL = 'http://localhost:3000/api';
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
+  // Check authentication
+  if (!token || user.role !== 'farmer') {
+    alert('Please login as a farmer to add products');
+    window.location.href = 'auth.html';
+    return;
+  }
+  
+  // Utils
+  function qs(id){return document.getElementById(id)}
+  function showError(id, msg){qs(id).textContent = msg}
+  function clearErrors(){['nameError','catError','dateError','locError','priceError','descError','bestBeforeError','imgError'].forEach(id=>showError(id,''))}
+
+  const form = qs('cropForm');
+  const dropArea = qs('dropArea');
+  const fileInput = qs('imageInput');
+  let editingId = null;
+  
+  // Crop variables
+  let cropModal = qs('cropModal');
+  let cropCanvas = qs('cropCanvas');
+  let cropCtx = cropCanvas.getContext('2d');
+  let originalImage = null;
+  let currentFile = null;
+  let scale = 1;
+  let offsetX = 0;
+  let offsetY = 0;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let imageAspectRatio = 1;
+
+  // get productId from querystring (edit mode)
+  const params = new URLSearchParams(location.search);
+  if (params.has('productId')) {
+    editingId = params.get('productId');
+    loadProduct(editingId);
+    qs('title').textContent = 'Edit Crop Listing';
+    qs('submitBtn').textContent = 'Save Changes';
+  }
+  
+  // Load product for editing
+  async function loadProduct(id) {
+    try {
+      const response = await fetch(`${API_URL}/products/${id}`);
+      if (response.ok) {
+        const prod = await response.json();
+        populateForm(prod);
+      }
+    } catch (error) {
+      console.error('Error loading product:', error);
+    }
+  }
+
+  // Image handling
+  function handleFile(file){
+    const allowed = ['image/jpeg','image/png'];
+    if (!allowed.includes(file.type)){ showError('imgError','Only JPEG or PNG allowed.'); return; }
+    if (file.size > 5*1024*1024){ showError('imgError','Image must be < 5 MB'); return; }
+    
+    currentFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        originalImage = img;
+        imageAspectRatio = img.width / img.height;
+        openCropModal();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+  
+  // Open crop modal
+  function openCropModal() {
+    if (!originalImage) return;
+    
+    // Reset crop state
+    scale = 1;
+    offsetX = 0;
+    offsetY = 0;
+    
+    // Set canvas size with 4:3 aspect ratio (max 512x384)
+    const aspectRatio = 4 / 3;
+    const maxWidth = 512;
+    const maxHeight = maxWidth / aspectRatio; // 384px for 4:3 ratio
+    
+    cropCanvas.width = maxWidth;
+    cropCanvas.height = maxHeight;
+    
+    drawCropCanvas();
+    cropModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  // Draw crop canvas
+  function drawCropCanvas() {
+    if (!originalImage) return;
+    
+    cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+    
+    const scaledWidth = originalImage.width * scale;
+    const scaledHeight = originalImage.height * scale;
+    
+    // Center the image if it's smaller than canvas
+    const x = (cropCanvas.width - scaledWidth) / 2 + offsetX;
+    const y = (cropCanvas.height - scaledHeight) / 2 + offsetY;
+    
+    cropCtx.drawImage(originalImage, x, y, scaledWidth, scaledHeight);
+    
+    // Draw crop frame overlay
+    cropCtx.strokeStyle = 'rgba(40, 167, 69, 0.8)';
+    cropCtx.lineWidth = 3;
+    cropCtx.strokeRect(0, 0, cropCanvas.width, cropCanvas.height);
+    
+    // Draw grid lines
+    cropCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    cropCtx.lineWidth = 1;
+    for (let i = 1; i < 3; i++) {
+      cropCtx.beginPath();
+      cropCtx.moveTo(cropCanvas.width * i / 3, 0);
+      cropCtx.lineTo(cropCanvas.width * i / 3, cropCanvas.height);
+      cropCtx.stroke();
+      cropCtx.beginPath();
+      cropCtx.moveTo(0, cropCanvas.height * i / 3);
+      cropCtx.lineTo(cropCanvas.width, cropCanvas.height * i / 3);
+      cropCtx.stroke();
+    }
+  }
+  
+  // Canvas drag handlers
+  cropCanvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStartX = e.clientX - offsetX;
+    dragStartY = e.clientY - offsetY;
+    cropCanvas.style.cursor = 'grabbing';
+  });
+  
+  cropCanvas.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    offsetX = e.clientX - dragStartX;
+    offsetY = e.clientY - dragStartY;
+    drawCropCanvas();
+  });
+  
+  cropCanvas.addEventListener('mouseup', () => {
+    isDragging = false;
+    cropCanvas.style.cursor = 'move';
+  });
+  
+  cropCanvas.addEventListener('mouseleave', () => {
+    isDragging = false;
+    cropCanvas.style.cursor = 'move';
+  });
+  
+  // Touch support for mobile
+  cropCanvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    isDragging = true;
+    dragStartX = touch.clientX - offsetX;
+    dragStartY = touch.clientY - offsetY;
+  });
+  
+  cropCanvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - dragStartX;
+    offsetY = touch.clientY - dragStartY;
+    drawCropCanvas();
+  });
+  
+  cropCanvas.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  // Crop controls
+  qs('zoomInBtn').addEventListener('click', () => {
+    scale = Math.min(scale * 1.2, 5);
+    drawCropCanvas();
+  });
+  
+  qs('zoomOutBtn').addEventListener('click', () => {
+    scale = Math.max(scale / 1.2, 0.5);
+    drawCropCanvas();
+  });
+  
+  qs('resetCropBtn').addEventListener('click', () => {
+    scale = 1;
+    offsetX = 0;
+    offsetY = 0;
+    drawCropCanvas();
+  });
+  
+  qs('cancelCropBtn').addEventListener('click', () => {
+    cropModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    fileInput.value = '';
+    currentFile = null;
+  });
+  
+  qs('applyCropBtn').addEventListener('click', () => {
+    // Create a clean canvas without grid lines for the final output
+    const outputCanvas = document.createElement('canvas');
+    outputCanvas.width = cropCanvas.width;
+    outputCanvas.height = cropCanvas.height;
+    const outputCtx = outputCanvas.getContext('2d');
+    
+    // Draw only the image without overlays
+    const scaledWidth = originalImage.width * scale;
+    const scaledHeight = originalImage.height * scale;
+    const x = (cropCanvas.width - scaledWidth) / 2 + offsetX;
+    const y = (cropCanvas.height - scaledHeight) / 2 + offsetY;
+    
+    outputCtx.drawImage(originalImage, x, y, scaledWidth, scaledHeight);
+    
+    // Get the clean cropped image data
+    const croppedDataUrl = outputCanvas.toDataURL('image/jpeg', 0.9);
+    
+    // Display the cropped image in the upload area
+    dropArea.innerHTML = '<img src="' + croppedDataUrl + '" alt="Preview">';
+    
+    // Close modal
+    cropModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    showError('imgError', '');
+  });
+  dropArea.addEventListener('click', ()=> fileInput.click());
+  fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+  ['dragenter','dragover'].forEach(ev=>dropArea.addEventListener(ev, e=>{e.preventDefault();dropArea.classList.add('dragover')}));
+  ['dragleave','dragend','drop'].forEach(ev=>dropArea.addEventListener(ev, e=>{e.preventDefault();dropArea.classList.remove('dragover')}));
+  dropArea.addEventListener('drop', e=>{ if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+
+  // Populate form for edit
+  function populateForm(p){
+    qs('productName').value = p.productName;
+    qs('category').value = p.category;
+    qs('harvestDate').value = p.harvestDate;
+    qs('location').value = p.location;
+    qs('price').value = p.price;
+    qs('description').value = p.description;
+    qs('bestBefore').value = p.bestBefore;
+    if (p.image) dropArea.innerHTML = '<img src="'+p.image+'" alt="Preview">';
+  }
+
+  // Submit
+  form.addEventListener('submit', async e=>{
+    e.preventDefault(); clearErrors();
+    let valid = true;
+    const name = qs('productName').value.trim();
+    const category = qs('category').value;
+    const harvestDate = qs('harvestDate').value;
+    const locationVal = qs('location').value.trim();
+    const price = qs('price').value;
+    const description = qs('description').value.trim();
+    const bestBefore = qs('bestBefore').value;
+
+    if (!name){ showError('nameError','Product name is required.'); valid=false; }
+    if (!category){ showError('catError','Category must be selected.'); valid=false; }
+    if (!harvestDate){ showError('dateError','Harvest date is required.'); valid=false; }
+    if (!locationVal){ showError('locError','Location is required.'); valid=false; }
+    if (!price || Number(price) <= 0){ showError('priceError','Price must be a positive number.'); valid=false; }
+    if (!description){ showError('descError','Description is required.'); valid=false; }
+    if (!bestBefore){ showError('bestBeforeError','Best-before date is required.'); valid=false; }
+    const imgEl = dropArea.querySelector('img');
+    if (!imgEl){ showError('imgError','Product image is required.'); valid=false; }
+
+    if (harvestDate && bestBefore && new Date(bestBefore) < new Date(harvestDate)){
+      showError('bestBeforeError','Best-before cannot be earlier than harvested date.'); valid=false;
+    }
+    if (!valid) return;
+
+    const productData = {
+      productName: name,
+      category,
+      harvestDate,
+      location: locationVal,
+      price: parseFloat(price),
+      description,
+      bestBefore,
+      image: imgEl ? imgEl.src : ''
+    };
+    
+    const submitBtn = qs('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = editingId ? 'Saving...' : 'Submitting...';
+
+    try {
+      const url = editingId ? `${API_URL}/products/${editingId}` : `${API_URL}/products`;
+      const method = editingId ? 'PUT' : 'POST';
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(productData)
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to save product');
+      }
+      
+      // Success - redirect to listed page
+      location.href = 'Listed_files.html';
+      
+    } catch (error) {
+      showError('imgError', error.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = editingId ? 'Save Changes' : '✅ Submit Listing';
+    }
+  });
+
+})();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FarmConnect - Your Digital Farm Assistant</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background-image: 
+    linear-gradient(rgba(17, 153, 142, 0.4), rgba(56, 239, 125, 0.4)),
+    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Floating shapes in background */
+.bg-shapes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 20s infinite ease-in-out;
+}
+
+.shape:nth-child(1) {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  left: 70%;
+  animation-delay: 3s;
+}
+
+.shape:nth-child(3) {
+  width: 150px;
+  height: 150px;
+  top: 30%;
+  left: 80%;
+  animation-delay: 6s;
+}
+
+.shape:nth-child(4) {
+  width: 250px;
+  height: 250px;
+  top: 70%;
+  left: 20%;
+  animation-delay: 9s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-50px) rotate(180deg);
+  }
+}
+
+/* Main container */
+.container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Glass morphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 3rem;
+  max-width: 900px;
+  width: 100%;
+  animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.logo {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+h1 {
+  font-size: 3rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Navigation Cards */
+.nav-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.nav-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 250px;
+  max-width: 280px;
+}
+
+.nav-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+}
+
+.nav-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.nav-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+/* AI Chatbot Styles */
+.chat-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.chat-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(17, 153, 142, 0.6);
+  }
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 400px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.chat-window.open {
+  display: flex;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chat-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.chat-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(240, 248, 255, 0.5);
+}
+
+.chat-message {
+  display: flex;
+  gap: 10px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message.user {
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.chat-message.user .chat-avatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.chat-message.ai .chat-avatar {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 15px;
+  line-height: 1.5;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.chat-message.user .chat-bubble {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.chat-message.ai .chat-bubble {
+  background: white;
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 5px;
+}
+
+.chat-input-area {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  outline: none;
+  transition: border 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #11998e;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.chat-input:-webkit-autofill,
+.chat-input:-webkit-autofill:hover,
+.chat-input:-webkit-autofill:focus,
+.chat-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.6) inset !important;
+  -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+}
+
+.chat-send {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-send:hover {
+  transform: scale(1.05);
+}
+
+.chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-typing {
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  width: fit-content;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: #11998e;
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 20px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestion-btn {
+  padding: 8px 14px;
+  background: rgba(17, 153, 142, 0.1);
+  border: 1px solid rgba(17, 153, 142, 0.3);
+  border-radius: 15px;
+  font-size: 12px;
+  color: #11998e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-btn:hover {
+  background: rgba(17, 153, 142, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+  margin-top: 3rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+  
+  .glass-card {
+    padding: 2rem;
+  }
+  
+  .nav-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .nav-card {
+    max-width: 100%;
+  }
+  
+  .logo {
+    font-size: 3rem;
+  }
+}
+
+/* Pulse animation for icons */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.nav-card:hover .nav-icon {
+  animation: pulse 1s infinite;
+}
+
+/* Language Selector */
+.language-selector {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.language-selector:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.language-selector option {
+  background: rgba(17, 153, 142, 0.95);
+  color: #fff;
+  padding: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+<!-- Background shapes -->
+<div class="bg-shapes">
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+  <div class="shape"></div>
+</div>
+
+<!-- Language Selector -->
+<select id="languageSelector" class="language-selector" onchange="i18n.setLanguage(this.value)">
+  <option value="en">🇬🇧 English</option>
+  <option value="hi">🇮🇳 हिंदी</option>
+  <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+  <option value="ml">🇮🇳 മലയാളം</option>
+</select>
+
+<!-- Main Container -->
+<div class="container">
+  <div class="glass-card">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo" style="background: transparent;"><img src="GTN_logo.png" alt="GTN Logo" style="width: 80px; height: 80px; object-fit: contain;"></div>
+      <h1 data-i18n="farmerDashboard.title">FarmConnect</h1>
+      <p class="tagline" data-i18n="farmerDashboard.tagline">Empowering Sellers, Connecting Communities</p>
+      <p id="welcomeMessage" style="margin-top: 1rem; font-size: 1.1rem; color: #fff;"></p>
+    </div>
+
+    <!-- Navigation Grid -->
+    <div class="nav-grid">
+      <a href="profile.html" class="nav-card">
+        <span class="nav-icon">👨‍🌾</span>
+        <div class="nav-title" data-i18n="farmerDashboard.myProfile">My Profile</div>
+        <p class="nav-description" data-i18n="farmerDashboard.myProfileDesc">Manage your seller details, experience, and contact information</p>
+      </a>
+
+      <a href="AddPrdct.html" class="nav-card">
+        <span class="nav-icon">➕</span>
+        <div class="nav-title" data-i18n="farmerDashboard.addCrop">Add Crop</div>
+        <p class="nav-description" data-i18n="farmerDashboard.addCropDesc">List new crops and products for sale with photos and details</p>
+      </a>
+
+      <a href="Listed_files.html" class="nav-card">
+        <span class="nav-icon">📋</span>
+        <div class="nav-title" data-i18n="farmerDashboard.myListings">My Listings</div>
+        <p class="nav-description" data-i18n="farmerDashboard.myListingsDesc">View, edit, and manage all your listed products</p>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p data-i18n="farmerDashboard.footerText">🌱 Grow your business with modern farming solutions</p>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem;" data-i18n="farmerDashboard.copyright">© 2025 FarmConnect - All Rights Reserved</p>
+      <button id="logoutBtn" style="margin-top: 1rem; padding: 0.7rem 2rem; background: rgba(220, 53, 69, 0.8); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s ease;" data-i18n="farmerDashboard.logout">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- AI Chatbot -->
+<button class="chat-button" id="chatButton" title="AI Farming Assistant">
+  🌾
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <h3 data-i18n="chat.title">🌾 AI Farming Assistant</h3>
+    <button class="chat-close" id="chatClose">×</button>
+  </div>
+  
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-message ai">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-bubble" id="chatGreeting">
+        Hello! I'm your AI farming assistant. I can help you with:
+        <br>• Crop selection based on weather & season
+        <br>• Tool and equipment recommendations
+        <br>• Growing tips and best practices
+        <br><br>What would you like to know?
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="suggestion-btn" data-query="What crops should I plant this season?" data-i18n="chat.suggestion1">What crops for this season?</button>
+    <button class="suggestion-btn" data-query="What tools do I need for rice farming?" data-i18n="chat.suggestion2">Rice farming tools?</button>
+    <button class="suggestion-btn" data-query="How to improve soil quality?" data-i18n="chat.suggestion3">Improve soil quality?</button>
+  </div>
+  
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about farming..." data-i18n-placeholder="chat.placeholder">
+    <button class="chat-send" id="chatSend">➤</button>
+  </div>
+</div>
+
+<script>
+// Check authentication on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+  
+  // If no token or user, redirect to auth page
+  if (!token || !userStr) {
+    alert('Please login to access the farmer dashboard');
+    window.location.href = 'auth.html';
+    return;
+  }
+  
+  try {
+    const user = JSON.parse(userStr);
+    
+    // Check if user is a farmer
+    if (user.role !== 'farmer') {
+      alert('Access denied! This page is only for farmers.');
+      // Redirect buyers to buyer page
+      if (user.role === 'buyer') {
+        window.location.href = 'buyer_page.html';
+      } else {
+        window.location.href = 'auth.html';
+      }
+      return;
+    }
+    
+    // Display welcome message - will be updated by i18n
+    const welcomeMsg = document.getElementById('welcomeMessage');
+    welcomeMsg.setAttribute('data-user-name', user.name);
+    
+  } catch (error) {
+    console.error('Error parsing user data:', error);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'auth.html';
+  }
+});
+
+// Logout functionality
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  const confirmMsg = i18n && i18n.t ? i18n.t('farmerDashboard.logout') + '?' : 'Are you sure you want to logout?';
+  if (confirm(confirmMsg)) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    alert('Logged out successfully!');
+    window.location.href = 'auth.html';
+  }
+});
+
+// ============ AI CHATBOT FUNCTIONALITY ============
+
+const chatButton = document.getElementById('chatButton');
+const chatWindow = document.getElementById('chatWindow');
+const chatClose = document.getElementById('chatClose');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+const chatSuggestions = document.getElementById('chatSuggestions');
+
+// Toggle chat window
+chatButton.addEventListener('click', () => {
+  chatWindow.classList.toggle('open');
+  if (chatWindow.classList.contains('open')) {
+    chatInput.focus();
+  }
+});
+
+chatClose.addEventListener('click', () => {
+  chatWindow.classList.remove('open');
+});
+
+// Add message to chat
+function addMessage(text, isUser = false) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chat-message ${isUser ? 'user' : 'ai'}`;
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = isUser ? '👤' : '🤖';
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+  
+  messageDiv.appendChild(avatar);
+  messageDiv.appendChild(bubble);
+  chatMessages.appendChild(messageDiv);
+  
+  // Scroll to bottom
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Show typing indicator
+function showTyping() {
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-message ai';
+  typingDiv.id = 'typing-indicator';
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = '🤖';
+  
+  const typingBubble = document.createElement('div');
+  typingBubble.className = 'chat-typing';
+  typingBubble.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  
+  typingDiv.appendChild(avatar);
+  typingDiv.appendChild(typingBubble);
+  chatMessages.appendChild(typingDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Remove typing indicator
+function hideTyping() {
+  const typingIndicator = document.getElementById('typing-indicator');
+  if (typingIndicator) {
+    typingIndicator.remove();
+  }
+}
+
+// Send message to AI
+async function sendMessage(message) {
+  if (!message.trim()) return;
+  
+  // Add user message
+  addMessage(message, true);
+  chatInput.value = '';
+  chatSend.disabled = true;
+  
+  // Show typing indicator
+  showTyping();
+  
+  try {
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+    const user = JSON.parse(userStr);
+    
+    const response = await fetch('http://localhost:3000/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        message: message,
+        location: user.address || 'India'
+      })
+    });
+    
+    const data = await response.json();
+    
+    hideTyping();
+    
+    if (response.ok) {
+      addMessage(data.response, false);
+      
+      // Show weather info if available
+      if (data.weather) {
+        const weatherInfo = `📍 ${data.location} - ${data.weather.temperature}°C, ${data.weather.description}`;
+        const weatherNote = document.createElement('div');
+        weatherNote.style.cssText = 'font-size: 11px; color: #666; margin-top: 5px; font-style: italic;';
+        weatherNote.textContent = weatherInfo;
+        chatMessages.lastChild.querySelector('.chat-bubble').appendChild(weatherNote);
+      }
+    } else {
+      if (data.needsSetup) {
+        addMessage('⚠️ AI service not configured yet. Please ask the admin to add a GEMINI_API_KEY to the server configuration.', false);
+      } else {
+        addMessage('Sorry, I encountered an error. Please try again.', false);
+      }
+    }
+    
+  } catch (error) {
+    hideTyping();
+    console.error('Chat error:', error);
+    addMessage('Unable to connect to the AI service. Please check your connection.', false);
+  } finally {
+    chatSend.disabled = false;
+    chatInput.focus();
+  }
+}
+
+// Send button click
+chatSend.addEventListener('click', () => {
+  sendMessage(chatInput.value);
+});
+
+// Enter key to send
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage(chatInput.value);
+  }
+});
+
+// Suggestion buttons
+chatSuggestions.addEventListener('click', (e) => {
+  if (e.target.classList.contains('suggestion-btn')) {
+    const query = e.target.getAttribute('data-query');
+    chatInput.value = query;
+    sendMessage(query);
+  }
+});
+
+// Load chat history on open
+chatButton.addEventListener('click', async () => {
+  if (chatWindow.classList.contains('open') && chatMessages.children.length === 1) {
+    // Only load history once
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/chat/history?limit=10', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.history && data.history.length > 0) {
+          // Clear welcome message
+          chatMessages.innerHTML = '';
+          
+          // Add history messages
+          data.history.forEach(item => {
+            addMessage(item.message, true);
+            addMessage(item.response, false);
+          });
+        }
+      }
+    } catch (error) {
+      console.log('Could not load chat history:', error);
+    }
+  }
+});
+</script>
+<script src="i18n.js"></script>
+<script>
+  // Update welcome message and chatbot greeting when i18n is ready
+  window.addEventListener('i18nReady', () => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const welcomeMsg = document.getElementById('welcomeMessage');
+    if (user.name && welcomeMsg) {
+      welcomeMsg.textContent = `${i18n.t('farmerDashboard.welcomeBack')}, ${user.name}! 👋`;
+    }
+    
+    // Update chatbot greeting
+    const chatGreeting = document.getElementById('chatGreeting');
+    if (chatGreeting) {
+      chatGreeting.innerHTML = i18n.t('chat.greeting') + 
+        '<br>' + i18n.t('chat.feature1') +
+        '<br>' + i18n.t('chat.feature2') +
+        '<br>' + i18n.t('chat.feature3') +
+        '<br><br>' + i18n.t('chat.question');
+    }
+  });
+</script>
+</body>
+</html>

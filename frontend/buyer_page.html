@@ -1,0 +1,1657 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Green Trade Network - Buy Products</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+:root{
+  --primary:#28a745; --danger:#dc3545; --bg:#f0f2f5; --font:"Segoe UI",Arial,sans-serif;
+  --secondary:#17a2b8; --warning:#ffc107;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font);
+  background-image:linear-gradient(rgba(40, 167, 69, 0.2), rgba(220, 53, 69, 0.1)),url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80');
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  min-height:100vh;
+  padding:1rem;
+}
+
+/* Header */
+.header{
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  padding:1.5rem 2rem;
+  border-radius:1rem;
+  margin-bottom:2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+.header h1{
+  color:var(--primary);
+  font-size:2rem;
+  margin-bottom:1rem;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Search and Filter Section */
+.controls{
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  padding:1.5rem;
+  border-radius:1rem;
+  margin-bottom:2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+.controls-grid{
+  display:grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 0.8fr 0.8fr 1fr;
+  gap:1rem;
+  align-items:end;
+}
+.control-group{
+  display:flex;
+  flex-direction:column;
+}
+.control-group label{
+  margin-bottom:.4rem;
+  font-size:.9rem;
+  color:#333;
+  font-weight:600;
+}
+.control-group input,
+.control-group select{
+  width:100%;
+  padding:.7rem .9rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius:.5rem;
+  font-size:.95rem;
+  color:#000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.65) inset !important;
+  -webkit-text-fill-color: #000 !important;
+  color: #000 !important;
+}
+.control-group input:focus,
+.control-group select:focus{
+  outline: none;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(40, 167, 69, 0.8);
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.4);
+  transform: translateY(-2px);
+}
+.btn-reset{
+  padding:.7rem 1.5rem;
+  background: rgba(220, 53, 69, 0.8);
+  color:#fff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius:.5rem;
+  cursor:pointer;
+  font-size:.95rem;
+  font-weight:600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+.btn-reset:hover{
+  background: rgba(200, 35, 51, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.5);
+}
+
+/* Product Grid */
+.products-container{
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding:2rem;
+  border-radius:1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  min-height:400px;
+}
+.products-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:1.5rem;
+}
+.product-card{
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius:1rem;
+  overflow:hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+  cursor:pointer;
+  animation: fadeIn 0.4s ease;
+}
+.product-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+  background: rgba(255, 255, 255, 0.5);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.product-image{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  background:#f0f0f0;
+}
+.product-info{
+  padding:1rem;
+}
+.product-category{
+  display:inline-block;
+  background: rgba(40, 167, 69, 0.8);
+  color:#fff;
+  padding:.3rem .8rem;
+  border-radius:.5rem;
+  font-size:.8rem;
+  font-weight:600;
+  margin-bottom:.5rem;
+}
+.product-category.grains,
+.product-category.cereals{
+  background:#B75E00;
+}
+.product-category.fruits{
+  background:#FFA500;
+}
+.product-category.dairy{
+  background:#fff;
+  color:#333;
+  border:1.5px solid rgba(0,0,0,0.2);
+}
+.product-name{
+  font-size:1.1rem;
+  font-weight:700;
+  color:#333;
+  margin:.5rem 0;
+}
+.product-price{
+  font-size:1.3rem;
+  font-weight:700;
+  color:var(--primary);
+  margin:.5rem 0;
+}
+.product-location{
+  font-size:.85rem;
+  color:#666;
+  margin-top:.5rem;
+  display:flex;
+  align-items:center;
+  gap:.3rem;
+}
+
+/* Modal */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  z-index:1000;
+  justify-content:center;
+  align-items:center;
+  padding:1rem;
+  overflow-y:auto;
+}
+.modal.active{
+  display:flex;
+}
+.modal-content{
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  padding:2rem;
+  border-radius:1.5rem;
+  max-width:800px;
+  width:100%;
+  box-shadow: 0 16px 64px rgba(0,0,0,.4);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  position:relative;
+  animation: modalSlideIn 0.3s ease;
+  max-height:90vh;
+  overflow-y:auto;
+}
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.close-btn{
+  position:absolute;
+  top:1rem;
+  right:1rem;
+  background: rgba(220, 53, 69, 0.8);
+  color:#fff;
+  border:none;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:1.5rem;
+  line-height:1;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+.close-btn:hover{
+  background: rgba(200, 35, 51, 0.9);
+  transform: rotate(90deg);
+}
+.modal-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:2rem;
+}
+.modal-image{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  border-radius:1rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.modal-details h2{
+  color:#c8ff00;
+  font-size:1.8rem;
+  margin-bottom:1rem;
+  font-weight:700;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+}
+.detail-row{
+  margin:.8rem 0;
+  padding:.5rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.3);
+}
+.detail-label{
+  font-size:.85rem;
+  color:#49ff07c8;
+  font-weight:600;
+  margin-bottom:.2rem;
+}
+.detail-value{
+  font-size:1rem;
+  color:#222;
+  font-weight:500;
+}
+.description{
+  margin:1rem 0;
+  padding:1rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius:.5rem;
+  color:#333;
+  line-height:1.6;
+}
+.btn-order{
+  width:100%;
+  padding:1rem;
+  margin-top:1.5rem;
+  background: rgba(40, 167, 69, 0.8);
+  color:#fff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius:.5rem;
+  cursor:pointer;
+  font-size:1.2rem;
+  font-weight:600;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+.btn-order:hover{
+  background: rgba(33, 136, 56, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5);
+}
+
+.no-products{
+  text-align:center;
+  padding:3rem;
+  color:#555;
+  font-size:1.2rem;
+  font-weight:600;
+}
+
+/* Price Range Slider */
+.price-range-container{
+  grid-column: span 2;
+}
+.price-slider-wrapper{
+  padding:1rem 0.5rem;
+}
+.price-values{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:0.8rem;
+  font-weight:700;
+  color:#333;
+}
+.price-slider{
+  position:relative;
+  height:8px;
+  background:linear-gradient(90deg, rgba(40,167,69,0.3), rgba(40,167,69,0.3));
+  border-radius:4px;
+  margin:1rem 0;
+}
+.price-progress{
+  position:absolute;
+  height:100%;
+  background:linear-gradient(90deg, #28a745, #17a2b8);
+  border-radius:4px;
+}
+.range-input{
+  position:relative;
+  height:8px;
+}
+.range-input input{
+  position:absolute;
+  width:100%;
+  height:8px;
+  background:none;
+  pointer-events:none;
+  appearance:none;
+  -webkit-appearance:none;
+  padding:0;
+  margin:0;
+  border:none;
+  outline:none;
+}
+.range-input input::-webkit-slider-thumb{
+  height:20px;
+  width:20px;
+  border-radius:50%;
+  background:#28a745;
+  pointer-events:auto;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.range-input input::-moz-range-thumb{
+  height:20px;
+  width:20px;
+  border-radius:50%;
+  background:#28a745;
+  pointer-events:auto;
+  cursor:pointer;
+  border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Farmers Section */
+.farmers-section{
+  margin:2rem auto;
+  max-width:1400px;
+  padding:0 2rem;
+  display:none;
+}
+.farmers-section.visible{
+  display:block;
+}
+.farmers-header{
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(20px);
+  padding:1rem 1.5rem;
+  border-radius:1rem;
+  margin-bottom:1.5rem;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  border:2px solid rgba(255,255,255,0.4);
+}
+.farmers-header h2{
+  color:#28a745;
+  font-size:1.5rem;
+  margin:0;
+  text-shadow:0 2px 8px rgba(255,255,255,0.8);
+}
+.farmers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:1.5rem;
+}
+.farmer-card{
+  background:rgba(255,255,255,0.3);
+  backdrop-filter:blur(20px);
+  padding:1.5rem;
+  border-radius:1rem;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  border:2px solid rgba(255,255,255,0.4);
+  transition:all 0.3s ease;
+  cursor:pointer;
+}
+.farmer-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 8px 25px rgba(40,167,69,0.3);
+  border-color:rgba(40,167,69,0.6);
+}
+.farmer-avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #28a745, #20c997);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2.5rem;
+  margin:0 auto 1rem;
+  border:3px solid rgba(255,255,255,0.5);
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+.farmer-name{
+  font-size:1.2rem;
+  font-weight:700;
+  color:#2d3436;
+  text-align:center;
+  margin-bottom:0.5rem;
+}
+.farmer-info{
+  font-size:0.9rem;
+  color:#636e72;
+  margin:0.25rem 0;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.farmer-products-count{
+  background:rgba(40,167,69,0.2);
+  color:#28a745;
+  padding:0.4rem 0.8rem;
+  border-radius:0.5rem;
+  font-weight:600;
+  text-align:center;
+  margin-top:0.5rem;
+  font-size:0.9rem;
+}
+.btn-view-products{
+  background:linear-gradient(135deg, #28a745, #20c997);
+  color:#fff;
+  border:none;
+  padding:0.7rem 1.2rem;
+  border-radius:0.5rem;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+  margin-top:1rem;
+  transition:all 0.3s ease;
+  box-shadow:0 4px 12px rgba(40,167,69,0.3);
+}
+.btn-view-products:hover{
+  transform:scale(1.05);
+  box-shadow:0 6px 20px rgba(40,167,69,0.5);
+}
+
+@media (max-width: 1024px) {
+  .controls-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+  .modal-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .controls-grid{
+    grid-template-columns: 1fr;
+  }
+  .products-grid{
+    grid-template-columns: 1fr;
+  }
+  .chat-window {
+    width: calc(100vw - 40px);
+    right: 20px;
+    bottom: 90px;
+    height: 500px;
+  }
+}
+
+/* AI Chatbot Styles */
+.chat-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.chat-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(17, 153, 142, 0.6);
+  }
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 400px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.chat-window.open {
+  display: flex;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chat-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.chat-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(240, 248, 255, 0.5);
+}
+
+.chat-message {
+  display: flex;
+  gap: 10px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message.user {
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.chat-message.user .chat-avatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.chat-message.ai .chat-avatar {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 15px;
+  line-height: 1.5;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.chat-message.user .chat-bubble {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.chat-message.ai .chat-bubble {
+  background: white;
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 5px;
+}
+
+.chat-input-area {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  outline: none;
+  transition: border 0.2s;
+}
+
+.chat-input:focus {
+  border-color: #11998e;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.chat-send {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-send:hover {
+  transform: scale(1.05);
+}
+
+.chat-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-typing {
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  width: fit-content;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: #11998e;
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 20px;
+  background: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.suggestion-btn {
+  padding: 8px 14px;
+  background: rgba(17, 153, 142, 0.1);
+  border: 1px solid rgba(17, 153, 142, 0.3);
+  border-radius: 15px;
+  font-size: 12px;
+  color: #11998e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-btn:hover {
+  background: rgba(17, 153, 142, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Language Selector */
+.language-selector {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.language-selector:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.language-selector option {
+  background: rgba(40, 167, 69, 0.95);
+  color: #fff;
+  padding: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+<!-- Language Selector -->
+<select id="languageSelector" class="language-selector" onchange="i18n.setLanguage(this.value)">
+  <option value="en">🇬🇧 English</option>
+  <option value="hi">🇮🇳 हिंदी</option>
+  <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+  <option value="ml">🇮🇳 മലയാളം</option>
+</select>
+
+<div class="header">
+  <div style="text-align:center;margin-bottom:1rem">
+    <img src="GTN_logo.png" alt="GTN Logo" style="width:70px;height:70px;object-fit:contain">
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+    <h1 style="margin:0" data-i18n="buyerPage.title">🛒 Green Trade Network</h1>
+    <button id="logoutBtn" onclick="if(confirm(i18n && i18n.t ? i18n.t('buyerPage.logout')+'?' : 'Logout?')){localStorage.clear();window.location.href='landing.html'}" style="padding:0.7rem 1.2rem;background:rgba(220,53,69,0.8);backdrop-filter:blur(15px);color:#fff;border:1.5px solid rgba(255,255,255,0.4);font-weight:600;cursor:pointer;border-radius:0.5rem;transition:all 0.3s ease" onmouseover="this.style.background='rgba(200,35,51,0.9)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(220,53,69,0.8)';this.style.transform='translateY(0)'" data-i18n="buyerPage.logout">Logout</button>
+  </div>
+  <p style="background:linear-gradient(135deg,#28a745,#17a2b8,#ffc107);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.3rem;font-weight:700;text-align:center;letter-spacing:3px;text-shadow:0 2px 10px rgba(0,0,0,0.1);" data-i18n="buyerPage.tagline">Click • Pick • Enjoy</p>
+</div>
+
+<div class="controls">
+  <div class="controls-grid">
+    <div class="control-group">
+      <label for="searchInput" data-i18n="buyerPage.searchLabel">🔍 Search Products</label>
+      <input type="text" id="searchInput" placeholder="Search by product name..." data-i18n-placeholder="buyerPage.searchPlaceholder">
+    </div>
+    <div class="control-group">
+      <label for="categoryFilter" data-i18n="buyerPage.category">Category</label>
+      <select id="categoryFilter">
+        <option value="" data-i18n="buyerPage.allCategories">All Categories</option>
+        <option data-i18n="buyerPage.vegetables">Vegetables</option>
+        <option data-i18n="buyerPage.fruits">Fruits</option>
+        <option data-i18n="buyerPage.cereals">Cereals</option>
+        <option data-i18n="buyerPage.dairy">Dairy</option>
+        <option data-i18n="buyerPage.grains">Grains</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="sortBy" data-i18n="buyerPage.sortBy">Sort By</label>
+      <select id="sortBy">
+        <option value="name" data-i18n="buyerPage.sortName">Name (A-Z)</option>
+        <option value="price-low" data-i18n="buyerPage.sortPriceLow">Price (Low to High)</option>
+        <option value="price-high" data-i18n="buyerPage.sortPriceHigh">Price (High to Low)</option>
+        <option value="date-new" data-i18n="buyerPage.sortDateNew">Newest First</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="locationFilter" data-i18n="buyerPage.productLocation">📍 Product Location</label>
+      <input type="text" id="locationFilter" placeholder="Filter by product location..." data-i18n-placeholder="buyerPage.productLocationPlaceholder">
+    </div>
+    <div class="control-group">
+      <label for="farmerLocationFilter" data-i18n="buyerPage.farmerLocation">👨‍🌾 Farmer Location</label>
+      <input type="text" id="farmerLocationFilter" placeholder="Search farmers by location..." data-i18n-placeholder="buyerPage.farmerLocationPlaceholder">
+    </div>
+    <div class="control-group price-range-container">
+      <label>💰 PRICE</label>
+      <div class="price-slider-wrapper">
+        <div class="price-values">
+          <span>₹<span id="minPriceDisplay">0</span></span>
+          <span>₹<span id="maxPriceDisplay">2,500</span>+</span>
+        </div>
+        <div class="price-slider">
+          <div class="price-progress" id="priceProgress"></div>
+        </div>
+        <div class="range-input">
+          <input type="range" id="minPrice" min="0" max="2500" value="0" step="50">
+          <input type="range" id="maxPrice" min="0" max="2500" value="2500" step="50">
+        </div>
+      </div>
+    </div>
+    <div class="control-group">
+      <button class="btn-reset" id="resetBtn">Reset Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- Farmers Section (shown when searching by farmer location) -->
+<div class="farmers-section" id="farmersSection">
+  <div class="farmers-header">
+    <h2>👨‍🌾 Farmers in this Location</h2>
+    <button class="btn-reset" id="showAllProductsBtn" style="display:none;margin-top:0.5rem;">Show All Products</button>
+  </div>
+  <div class="farmers-grid" id="farmersGrid">
+    <!-- Farmer cards will be dynamically loaded here -->
+  </div>
+</div>
+
+<div class="products-container">
+  <div class="products-grid" id="productsGrid">
+    <!-- Products will be dynamically loaded here -->
+  </div>
+  <div class="no-products" id="noProducts" style="display:none;">
+    No products found. Try adjusting your filters.
+  </div>
+</div>
+
+<!-- AI Chatbot -->
+<button class="chat-button" id="chatButton" title="AI Farming Assistant">
+  🌾
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <h3>🌾 AI Farming Assistant</h3>
+    <button class="chat-close" id="chatClose">×</button>
+  </div>
+  
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-message ai">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-bubble">
+        Hello! I'm your AI farming assistant. I can help you with:
+        <br>• Crop selection based on weather & season
+        <br>• Tool and equipment recommendations
+        <br>• Growing tips and best practices
+        <br><br>What would you like to know?
+      </div>
+    </div>
+  </div>
+  
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="suggestion-btn" data-query="What crops should I plant this season?">What crops for this season?</button>
+    <button class="suggestion-btn" data-query="What tools do I need for rice farming?">Rice farming tools?</button>
+    <button class="suggestion-btn" data-query="How to improve soil quality?">Improve soil quality?</button>
+  </div>
+  
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about farming...">
+    <button class="chat-send" id="chatSend">➤</button>
+  </div>
+</div>
+
+<!-- Modal for Product Details -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">&times;</button>
+    <div class="modal-grid">
+      <div>
+        <img src="" alt="Product" class="modal-image" id="modalImage">
+      </div>
+      <div class="modal-details">
+        <h2 id="modalProductName"></h2>
+        <span class="product-category" id="modalCategory"></span>
+        
+        <div class="detail-row">
+          <div class="detail-label">Price per Unit</div>
+          <div class="detail-value" id="modalPrice" style="color:var(--primary);font-size:1.5rem;font-weight:700;"></div>
+        </div>
+        
+        <div class="detail-row">
+          <div class="detail-label">📍 Location</div>
+          <div class="detail-value" id="modalLocation"></div>
+        </div>
+        
+        <div class="detail-row">
+          <div class="detail-label">🌾 Harvested On</div>
+          <div class="detail-value" id="modalHarvestDate"></div>
+        </div>
+        
+        <div class="detail-row">
+          <div class="detail-label">⏰ Best Before</div>
+          <div class="detail-value" id="modalBestBefore"></div>
+        </div>
+        
+        <div class="detail-row">
+          <div class="detail-label">Description</div>
+          <div class="description" id="modalDescription"></div>
+        </div>
+        
+        <div style="margin-top:1.5rem;padding:1rem;background:rgba(40,167,69,0.1);border-radius:0.5rem;border:1.5px solid rgba(40,167,69,0.3);">
+          <div style="font-weight:700;color:var(--primary);margin-bottom:0.8rem;font-size:1.1rem;">👨‍🌾 Farmer Details</div>
+          <div class="detail-row" style="margin-bottom:0.5rem;">
+            <div class="detail-label">Name</div>
+            <div class="detail-value" id="modalFarmerName" style="font-weight:600;"></div>
+          </div>
+          <div class="detail-row" style="margin-bottom:0.5rem;">
+            <div class="detail-label">📞 Phone</div>
+            <div class="detail-value" id="modalFarmerPhone" style="font-weight:600;color:var(--secondary);"></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">🏙️ City</div>
+            <div class="detail-value" id="modalFarmerCity" style="font-weight:600;"></div>
+          </div>
+        </div>
+        
+        <div class="detail-row" style="margin-top:1.5rem;">
+          <div class="detail-label">Quantity (kg)</div>
+          <input type="number" id="orderQuantity" min="1" max="10" value="1" placeholder="Enter quantity in kg" style="width:100%;padding:.7rem;border:1.5px solid rgba(255,255,255,0.6);border-radius:.5rem;background:rgba(255,255,255,0.5);font-size:1rem;color:#000;">
+        </div>
+        
+        <button class="btn-order" id="placeOrderBtn">🛒 Place Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const API_URL = 'http://localhost:3000/api';
+  
+  // Get products from API
+  let allProducts = [];
+  let filteredProducts = [];
+  let currentProduct = null;
+  let selectedFarmerId = null; // Track selected farmer
+
+  // DOM Elements
+  const productsGrid = document.getElementById('productsGrid');
+  const noProducts = document.getElementById('noProducts');
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const sortBy = document.getElementById('sortBy');
+  const resetBtn = document.getElementById('resetBtn');
+  const modal = document.getElementById('productModal');
+  const closeModal = document.getElementById('closeModal');
+  const placeOrderBtn = document.getElementById('placeOrderBtn');
+  const farmersSection = document.getElementById('farmersSection');
+  const farmersGrid = document.getElementById('farmersGrid');
+  const showAllProductsBtn = document.getElementById('showAllProductsBtn');
+
+  // Price Range Slider
+  const minPriceInput = document.getElementById('minPrice');
+  const maxPriceInput = document.getElementById('maxPrice');
+  const minPriceDisplay = document.getElementById('minPriceDisplay');
+  const maxPriceDisplay = document.getElementById('maxPriceDisplay');
+  const priceProgress = document.getElementById('priceProgress');
+  const priceGap = 50;
+
+  function updatePriceSlider() {
+    let minVal = parseInt(minPriceInput.value);
+    let maxVal = parseInt(maxPriceInput.value);
+
+    if (maxVal - minVal < priceGap) {
+      if (event.target === minPriceInput) {
+        minPriceInput.value = maxVal - priceGap;
+        minVal = maxVal - priceGap;
+      } else {
+        maxPriceInput.value = minVal + priceGap;
+        maxVal = minVal + priceGap;
+      }
+    }
+
+    minPriceDisplay.textContent = minVal.toLocaleString('en-IN');
+    maxPriceDisplay.textContent = maxVal.toLocaleString('en-IN');
+
+    const minPercent = (minVal / parseInt(minPriceInput.max)) * 100;
+    const maxPercent = (maxVal / parseInt(maxPriceInput.max)) * 100;
+    priceProgress.style.left = minPercent + '%';
+    priceProgress.style.width = (maxPercent - minPercent) + '%';
+
+    filterAndSort();
+  }
+
+  minPriceInput.addEventListener('input', updatePriceSlider);
+  maxPriceInput.addEventListener('input', updatePriceSlider);
+
+  // Initialize slider
+  updatePriceSlider();
+
+  // Load products from API
+  async function loadProducts(){
+    try {
+      const response = await fetch(`${API_URL}/products`);
+      if (!response.ok) throw new Error('Failed to load products');
+      allProducts = await response.json();
+      filterAndSort();
+    } catch (error) {
+      console.error('Error loading products:', error);
+      allProducts = [];
+      filteredProducts = [];
+      renderProducts();
+    }
+  }
+
+  // Format date
+  function formatDate(dateStr){
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Render products
+  function renderProducts(){
+    productsGrid.innerHTML = '';
+    
+    if (filteredProducts.length === 0) {
+      const farmerLocationTerm = document.getElementById('farmerLocationFilter').value.toLowerCase();
+      if (farmerLocationTerm && !selectedFarmerId) {
+        noProducts.textContent = 'Select a farmer above to view their products.';
+      } else {
+        noProducts.textContent = 'No products found. Try adjusting your filters.';
+      }
+      noProducts.style.display = 'block';
+      return;
+    }
+    
+    noProducts.style.display = 'none';
+    
+    filteredProducts.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.onclick = () => openModal(product);
+      
+      let categoryClass = 'product-category';
+      const catLower = product.category.toLowerCase();
+      if (catLower === 'grains' || catLower === 'cereals') {
+        categoryClass += ' grains';
+      } else if (catLower === 'fruits') {
+        categoryClass += ' fruits';
+      } else if (catLower === 'dairy') {
+        categoryClass += ' dairy';
+      }
+      
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.productName}" class="product-image">
+        <div class="product-info">
+          <span class="${categoryClass}">${product.category}</span>
+          <div class="product-name">${product.productName}</div>
+          <div class="product-price">₹${product.price}/unit</div>
+          <div class="product-location">📍 ${product.location}</div>
+          ${product.seller ? `
+          <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 0.25rem;">
+              👨‍🌾 <strong>${product.seller.name}</strong>
+            </div>
+            ${product.seller.address ? `<div style="font-size: 0.8rem; color: rgba(255,255,255,0.7);">🏙️ ${product.seller.address}</div>` : ''}
+          </div>
+          ` : ''}
+        </div>
+      `;
+      
+      productsGrid.appendChild(card);
+    });
+  }
+
+  // Render farmers
+  function renderFarmers(farmerLocationTerm) {
+    if (!farmerLocationTerm) {
+      farmersSection.classList.remove('visible');
+      return;
+    }
+
+    // Group products by farmer matching the location
+    const farmerMap = new Map();
+    allProducts.forEach(product => {
+      if (product.seller && product.seller.address && 
+          product.seller.address.toLowerCase().includes(farmerLocationTerm.toLowerCase())) {
+        const farmerId = product.seller.id;
+        if (!farmerMap.has(farmerId)) {
+          farmerMap.set(farmerId, {
+            id: farmerId,
+            name: product.seller.name,
+            email: product.seller.email,
+            phone: product.seller.phone || 'N/A',
+            address: product.seller.address,
+            products: []
+          });
+        }
+        farmerMap.get(farmerId).products.push(product);
+      }
+    });
+
+    if (farmerMap.size === 0) {
+      farmersSection.classList.remove('visible');
+      return;
+    }
+
+    farmersSection.classList.add('visible');
+    farmersGrid.innerHTML = '';
+
+    farmerMap.forEach(farmer => {
+      const farmerCard = document.createElement('div');
+      farmerCard.className = 'farmer-card';
+      
+      // Try to get farmer's profile photo from farmerDetails localStorage
+      // Check if this farmer's email matches any stored farmer details
+      let profilePhoto = null;
+      try {
+        const farmerDetails = JSON.parse(localStorage.getItem('farmerDetails')) || {};
+        const storedUser = JSON.parse(localStorage.getItem('user')) || {};
+        
+        // If this is the logged-in user's profile, use their stored photo
+        if (storedUser.email === farmer.email && farmerDetails.photo) {
+          profilePhoto = farmerDetails.photo;
+        }
+      } catch (e) {
+        console.log('Error loading farmer photo:', e);
+      }
+      
+      // Build avatar HTML - use photo if available, otherwise show default icon
+      const avatarHTML = profilePhoto 
+        ? `<div class="farmer-avatar"><img src="${profilePhoto}" alt="${farmer.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>`
+        : `<div class="farmer-avatar" style="background:linear-gradient(135deg, #28a745, #20c997);color:#fff;font-size:2.5rem;">👤</div>`;
+      
+      farmerCard.innerHTML = `
+        ${avatarHTML}
+        <div class="farmer-name">${farmer.name}</div>
+        <div class="farmer-info">📧 ${farmer.email}</div>
+        <div class="farmer-info">📞 ${farmer.phone}</div>
+        <div class="farmer-info">🏙️ ${farmer.address}</div>
+        <div class="farmer-products-count">${farmer.products.length} Product${farmer.products.length > 1 ? 's' : ''} Available</div>
+        <button class="btn-view-products" data-farmer-id="${farmer.id}">View Products</button>
+      `;
+
+      farmerCard.querySelector('.btn-view-products').addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedFarmerId = farmer.id;
+        showAllProductsBtn.style.display = 'inline-block';
+        
+        // Highlight selected farmer
+        document.querySelectorAll('.farmer-card').forEach(c => c.style.borderColor = 'rgba(255,255,255,0.4)');
+        farmerCard.style.borderColor = '#28a745';
+        farmerCard.style.boxShadow = '0 8px 25px rgba(40,167,69,0.5)';
+        
+        filterAndSort();
+        // Scroll to products
+        document.querySelector('.products-container').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      farmersGrid.appendChild(farmerCard);
+    });
+  }
+
+  // Filter and Sort
+  function filterAndSort(){
+    const searchTerm = searchInput.value.toLowerCase();
+    const category = categoryFilter.value;
+    const locationTerm = document.getElementById('locationFilter').value.toLowerCase();
+    const farmerLocationTerm = document.getElementById('farmerLocationFilter').value.toLowerCase();
+    const sort = sortBy.value;
+    const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+    const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+    
+    // Show farmers if searching by farmer location
+    renderFarmers(farmerLocationTerm);
+
+    // If searching by farmer location and no farmer is selected, don't show products
+    if (farmerLocationTerm && !selectedFarmerId) {
+      filteredProducts = [];
+      renderProducts();
+      return;
+    }
+
+    // Filter
+    filteredProducts = allProducts.filter(product => {
+      const matchesSearch = product.productName.toLowerCase().includes(searchTerm);
+      const matchesCategory = !category || product.category === category;
+      const matchesLocation = product.location.toLowerCase().includes(locationTerm);
+      const matchesFarmerLocation = !farmerLocationTerm || (product.seller && product.seller.address && product.seller.address.toLowerCase().includes(farmerLocationTerm));
+      const matchesFarmer = !selectedFarmerId || (product.seller && product.seller.id === selectedFarmerId);
+      const productPrice = parseFloat(product.price);
+      const matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
+      return matchesSearch && matchesCategory && matchesLocation && matchesFarmerLocation && matchesFarmer && matchesPrice && product.available;
+    });
+    
+    // Sort
+    filteredProducts.sort((a, b) => {
+      switch(sort) {
+        case 'name':
+          return a.productName.localeCompare(b.productName);
+        case 'price-low':
+          return parseFloat(a.price) - parseFloat(b.price);
+        case 'price-high':
+          return parseFloat(b.price) - parseFloat(a.price);
+        case 'date-new':
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        default:
+          return 0;
+      }
+    });
+    
+    renderProducts();
+  }
+
+  // Open Modal
+  function openModal(product){
+    currentProduct = product;
+    document.getElementById('modalImage').src = product.image;
+    document.getElementById('modalProductName').textContent = product.productName;
+    
+    const modalCategory = document.getElementById('modalCategory');
+    modalCategory.textContent = product.category;
+    // Add special class based on category
+    const catLower = product.category.toLowerCase();
+    let categoryClass = 'product-category';
+    if (catLower === 'grains' || catLower === 'cereals') {
+      categoryClass += ' grains';
+    } else if (catLower === 'fruits') {
+      categoryClass += ' fruits';
+    } else if (catLower === 'dairy') {
+      categoryClass += ' dairy';
+    }
+    modalCategory.className = categoryClass;
+    
+    document.getElementById('modalPrice').textContent = '₹' + product.price + '/unit';
+    document.getElementById('modalLocation').textContent = product.location;
+    document.getElementById('modalHarvestDate').textContent = formatDate(product.harvestDate);
+    document.getElementById('modalBestBefore').textContent = formatDate(product.bestBefore);
+    document.getElementById('modalDescription').textContent = product.description;
+    document.getElementById('orderQuantity').value = '1';
+    
+    // Populate farmer details
+    if (product.seller) {
+      document.getElementById('modalFarmerName').textContent = product.seller.name || 'N/A';
+      document.getElementById('modalFarmerPhone').textContent = product.seller.phone || 'N/A';
+      document.getElementById('modalFarmerCity').textContent = product.seller.address || 'N/A';
+    } else {
+      document.getElementById('modalFarmerName').textContent = 'N/A';
+      document.getElementById('modalFarmerPhone').textContent = 'N/A';
+      document.getElementById('modalFarmerCity').textContent = 'N/A';
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close Modal
+  function closeModalFunc(){
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    currentProduct = null;
+  }
+
+  // Place Order
+  async function placeOrder(){
+    if (!currentProduct) return;
+    
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (!token || user.role !== 'buyer') {
+      alert('Please login as a buyer to place orders');
+      window.location.href = 'auth.html';
+      return;
+    }
+    
+    const quantityInput = document.getElementById('orderQuantity');
+    const quantity = parseInt(quantityInput.value);
+    
+    if (!quantity || isNaN(quantity) || quantity < 1 || quantity > 10) {
+      alert('Please enter a valid quantity between 1 and 10 kg');
+      quantityInput.focus();
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${API_URL}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          productId: currentProduct.id,
+          quantity: parseInt(quantity),
+          buyerName: user.name || 'Anonymous',
+          buyerPhone: user.phone || 'N/A',
+          buyerAddress: user.address || 'N/A'
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to place order');
+      
+      const order = await response.json();
+      alert(`Order placed successfully!\n\nProduct: ${currentProduct.productName}\nQuantity: ${quantity} kg\nTotal: ₹${order.totalPrice}\n\nThe seller will contact you soon.`);
+      closeModalFunc();
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Failed to place order. Please try again.');
+    }
+  }
+
+  // Event Listeners
+  searchInput.addEventListener('input', filterAndSort);
+  categoryFilter.addEventListener('change', filterAndSort);
+  sortBy.addEventListener('change', filterAndSort);
+  document.getElementById('locationFilter').addEventListener('input', filterAndSort);
+  document.getElementById('farmerLocationFilter').addEventListener('input', filterAndSort);
+  resetBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    categoryFilter.value = '';
+    sortBy.value = 'name';
+    document.getElementById('locationFilter').value = '';
+    document.getElementById('farmerLocationFilter').value = '';
+    minPriceInput.value = 0;
+    maxPriceInput.value = 2500;
+    selectedFarmerId = null; // Clear farmer selection
+    farmersSection.classList.remove('visible'); // Hide farmers section
+    updatePriceSlider();
+    filterAndSort();
+  });
+  closeModal.addEventListener('click', closeModalFunc);
+  placeOrderBtn.addEventListener('click', placeOrder);
+  
+  // Show all products button
+  showAllProductsBtn.addEventListener('click', () => {
+    selectedFarmerId = null;
+    showAllProductsBtn.style.display = 'none';
+    document.getElementById('farmerLocationFilter').value = '';
+    document.querySelectorAll('.farmer-card').forEach(c => {
+      c.style.borderColor = 'rgba(255,255,255,0.4)';
+      c.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+    });
+    filterAndSort();
+  });
+  
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModalFunc();
+  });
+
+  // Initial load
+  loadProducts();
+  
+  // Refresh products every 10 seconds
+  setInterval(loadProducts, 10000);
+
+})();
+
+// ============ AI CHATBOT FUNCTIONALITY ============
+
+const chatButton = document.getElementById('chatButton');
+const chatWindow = document.getElementById('chatWindow');
+const chatClose = document.getElementById('chatClose');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+const chatSuggestions = document.getElementById('chatSuggestions');
+
+// Toggle chat window
+chatButton.addEventListener('click', () => {
+  chatWindow.classList.toggle('open');
+  if (chatWindow.classList.contains('open')) {
+    chatInput.focus();
+  }
+});
+
+chatClose.addEventListener('click', () => {
+  chatWindow.classList.remove('open');
+});
+
+// Add message to chat
+function addMessage(text, isUser = false) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chat-message ${isUser ? 'user' : 'ai'}`;
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = isUser ? '👤' : '🤖';
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+  
+  messageDiv.appendChild(avatar);
+  messageDiv.appendChild(bubble);
+  chatMessages.appendChild(messageDiv);
+  
+  // Scroll to bottom
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Show typing indicator
+function showTyping() {
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-message ai';
+  typingDiv.id = 'typing-indicator';
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = '🤖';
+  
+  const typingBubble = document.createElement('div');
+  typingBubble.className = 'chat-typing';
+  typingBubble.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  
+  typingDiv.appendChild(avatar);
+  typingDiv.appendChild(typingBubble);
+  chatMessages.appendChild(typingDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Remove typing indicator
+function hideTyping() {
+  const typingIndicator = document.getElementById('typing-indicator');
+  if (typingIndicator) {
+    typingIndicator.remove();
+  }
+}
+
+// Send message to AI
+async function sendMessage(message) {
+  if (!message.trim()) return;
+  
+  // Add user message
+  addMessage(message, true);
+  chatInput.value = '';
+  chatSend.disabled = true;
+  
+  // Show typing indicator
+  showTyping();
+  
+  try {
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+    const user = JSON.parse(userStr);
+    
+    const response = await fetch('http://localhost:3000/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        message: message,
+        location: user.address || 'India'
+      })
+    });
+    
+    const data = await response.json();
+    
+    hideTyping();
+    
+    if (response.ok) {
+      addMessage(data.response, false);
+      
+      // Show weather info if available
+      if (data.weather) {
+        const weatherInfo = `📍 ${data.location} - ${data.weather.temperature}°C, ${data.weather.description}`;
+        const weatherNote = document.createElement('div');
+        weatherNote.style.cssText = 'font-size: 11px; color: #666; margin-top: 5px; font-style: italic;';
+        weatherNote.textContent = weatherInfo;
+        chatMessages.lastChild.querySelector('.chat-bubble').appendChild(weatherNote);
+      }
+    } else {
+      if (data.needsSetup) {
+        addMessage('⚠️ AI service not configured yet. Please ask the admin to add a GEMINI_API_KEY to the server configuration.', false);
+      } else {
+        addMessage('Sorry, I encountered an error. Please try again.', false);
+      }
+    }
+    
+  } catch (error) {
+    hideTyping();
+    console.error('Chat error:', error);
+    addMessage('Unable to connect to the AI service. Please check your connection.', false);
+  } finally {
+    chatSend.disabled = false;
+    chatInput.focus();
+  }
+}
+
+// Send button click
+chatSend.addEventListener('click', () => {
+  sendMessage(chatInput.value);
+});
+
+// Enter key to send
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage(chatInput.value);
+  }
+});
+
+// Suggestion buttons
+chatSuggestions.addEventListener('click', (e) => {
+  if (e.target.classList.contains('suggestion-btn')) {
+    const query = e.target.getAttribute('data-query');
+    chatInput.value = query;
+    sendMessage(query);
+  }
+});
+
+// Load chat history on open
+chatButton.addEventListener('click', async () => {
+  if (chatWindow.classList.contains('open') && chatMessages.children.length === 1) {
+    // Only load history once
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/chat/history?limit=10', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.history && data.history.length > 0) {
+          // Clear welcome message
+          chatMessages.innerHTML = '';
+          
+          // Add history messages
+          data.history.forEach(item => {
+            addMessage(item.message, true);
+            addMessage(item.response, false);
+          });
+        }
+      }
+    } catch (error) {
+      console.log('Could not load chat history:', error);
+    }
+  }
+});
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

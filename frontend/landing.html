@@ -1,0 +1,457 @@
+]<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Green Trade Network – Connecting Farmers Directly with Buyers</title>
+  <meta name="description" content="Green Trade Network – A marketplace platform connecting local farmers directly with buyers. Zero middlemen, fair prices, fresh produce." />
+  <style>
+    /* ---------- Reset & Base ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;color:#e9f5ef;background:#071018;}
+    a{color:inherit;text-decoration:none}
+
+    /* ---------- Utilities ---------- */
+    .container{width:min(1140px,94vw);margin:0 auto;padding:28px}
+    .center{display:flex;align-items:center;justify-content:center}
+
+    /* ---------- Top nav / header ---------- */
+    header{position:fixed;inset:0 0 auto 0;z-index:120;display:flex;justify-content:center;background:linear-gradient(180deg, rgba(7,16,24,0.95), transparent)}
+    nav{width:min(1140px,94vw);display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-radius:14px;margin:12px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+    .brand{display:flex;gap:12px;align-items:center;font-weight:800;font-size:1.3rem}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#2fd3b1,#0d7b5a);display:grid;place-items:center;color:#05261b;font-size:1.5rem}
+    .nav-links{display:flex;gap:12px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:10px;color:#dffbe8;font-weight:600;transition:all 0.3s ease}
+    .nav-links a:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
+    .cta-small{padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,#1fb57f,#0ea06a);color:#052617;font-weight:700;cursor:pointer;border:none;transition:all 0.3s ease}
+    .cta-small:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(31,181,127,0.4)}
+
+    /* ---------- Hero with background ---------- */
+    .hero-wrap{min-height:85vh;display:grid;place-items:center;padding-top:84px;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2000&auto=format&fit=crop');background-size:cover;background-position:center;filter:brightness(0.4) contrast(1.05)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,8,8,0.3), rgba(2,10,6,0.5));backdrop-filter:blur(2px)}
+
+    .hero-card{position:relative;z-index:10;width:min(1100px,96vw);display:grid;grid-template-columns:1.2fr 400px;gap:32px;padding:40px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+    .hero-card h1{font-size:clamp(32px,4.8vw,52px);color:#e9fff3;margin-bottom:12px;line-height:1.2;font-weight:800}
+    .hero-card p{color:rgba(233,245,239,0.95);line-height:1.6;font-size:1.1rem}
+    .hero-actions{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+    .hero-actions button{font-size:1.05rem;padding:12px 24px}
+
+    /* ---------- Sections ---------- */
+    section{padding:80px 0}
+    section.bg-soft{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-top:1px solid rgba(255,255,255,0.03)}
+
+    h2{font-size:2.5rem;color:#e9fff3;margin-bottom:24px;font-weight:700}
+    h3{font-size:1.8rem;color:#d4f5e4;margin-top:24px;margin-bottom:12px;font-weight:600}
+    h4{font-size:1.3rem;color:#c1f0d6;margin-bottom:10px;font-weight:600}
+
+    /* Features grid */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .card{padding:28px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);transition:all 0.3s ease;backdrop-filter:blur(10px)}
+    .card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.08);box-shadow:0 12px 30px rgba(31,181,127,0.2)}
+    .card h4{color:#2fd3b1}
+    .card p{color:rgba(233,245,239,0.9);line-height:1.6}
+
+    /* About section */
+    .about{display:grid;grid-template-columns:1fr 450px;gap:32px;align-items:center}
+    .about .bg-photo{height:360px;border-radius:16px;background-image:url('GTN_logo.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+    .about ul{margin-top:16px;color:rgba(233,245,239,0.95);line-height:1.8;font-size:1.05rem}
+    .about ul li{margin-bottom:8px}
+
+
+
+    /* FAQ */
+    .faq-item{margin-bottom:14px}
+    .faq-q{cursor:pointer;padding:16px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);transition:all 0.3s ease;font-weight:600}
+    .faq-q:hover{background:rgba(255,255,255,0.08)}
+    .faq-a{padding:14px 18px;color:rgba(233,245,239,0.95);display:none;line-height:1.6}
+
+    /* Contact */
+    .contact-wrap{display:grid;grid-template-columns:1fr 450px;gap:32px}
+    form .field{display:flex;flex-direction:column;margin-bottom:14px}
+    form label{margin-bottom:6px;font-weight:600;color:#c1f0d6}
+    form input,form textarea{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#eaffef;font-size:1rem;transition:all 0.3s ease}
+    form input:focus,form textarea:focus{outline:none;border-color:#2fd3b1;background:rgba(255,255,255,0.08);box-shadow:0 0 0 3px rgba(47,211,177,0.2)}
+    form textarea{min-height:140px;resize:vertical;font-family:inherit}
+
+    /* Footer */
+    footer{padding:40px 0;color:#cfeee0;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.05)}
+
+    /* Responsive */
+    @media(max-width:980px){
+      .hero-card{grid-template-columns:1fr}
+      .about,.contact-wrap{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+      .grid-3{grid-template-columns:1fr}
+      h1{font-size:2rem !important}
+      h2{font-size:1.8rem}
+    }
+
+    /* Smooth scroll */
+    html{scroll-behavior:smooth}
+    .active-link{background:rgba(31,181,127,0.2) !important;box-shadow:inset 0 -3px 0 #1fb57f}
+
+    /* Back to top button */
+    #toTop{position:fixed;right:24px;bottom:24px;padding:14px 18px;border-radius:12px;background:linear-gradient(90deg,#1fb57f,#0ea06a);color:#052617;font-weight:800;cursor:pointer;display:none;z-index:140;border:none;box-shadow:0 4px 16px rgba(31,181,127,0.4);transition:all 0.3s ease}
+    #toTop:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(31,181,127,0.6)}
+
+    /* Badge */
+    .badge{display:inline-flex;gap:10px;align-items:center;margin-bottom:12px;padding:8px 14px;background:rgba(47,211,177,0.15);border-radius:20px;border:1px solid rgba(47,211,177,0.3)}
+    .badge-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#37c28b,#0ea06a)}
+    .badge-text{color:#bff1d8;font-weight:600;font-size:0.95rem}
+
+    /* Info cards (right side hero) */
+    .info-card{padding:18px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);margin-bottom:12px}
+    .info-card-title{font-weight:700;color:#e9fff3;margin-bottom:6px}
+    .info-card-desc{font-size:0.9rem;color:rgba(233,245,239,0.85)}
+  </style>
+</head>
+<body>
+
+
+  <!-- Header / Navigation -->
+  <header>
+    <nav aria-label="Main navigation">
+      <div class="brand">
+        <div class="logo" style="background: transparent;"><img src="GTN_logo.png" alt="GTN Logo" style="width: 44px; height: 44px; object-fit: contain;"></div>
+        <div>Green Trade Network</div>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" data-target="home" data-i18n="landing.features">Home</a>
+        <a href="#about" data-target="about" data-i18n="landing.about">About</a>
+        <a href="#features" data-target="features" data-i18n="landing.features">Features</a>
+        <a href="#how" data-target="how">How it Works</a>
+        <a href="#faq" data-target="faq">FAQ</a>
+        <a href="#contact" data-target="contact" data-i18n="landing.contact">Contact</a>
+        <a class="cta-small" id="getStartedNav" data-i18n="landing.getStarted">Get Started</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero-wrap">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="hero-card container" role="region" aria-labelledby="heroTitle">
+        <div>
+          <div class="badge">
+            <div class="badge-dot"></div>
+            <strong class="badge-text">Sustainable · Local · Direct</strong>
+          </div>
+          <h1 id="heroTitle">Green Trade Network – Connecting farmers directly with buyers</h1>
+          <p>Eliminate middlemen and connect local farmers with buyers. List fresh produce, search by location and category, and contact farmers directly. Built for local communities and sustainable agriculture.</p>
+
+          <div class="hero-actions">
+            <button class="cta-small" id="getStartedBtn">Get Started</button>
+          </div>
+
+          <div style="margin-top:24px;color:rgba(233,245,239,0.85);font-size:0.95rem">
+            ✓ Trusted by local communities • ✓ Built for farmers • ✓ Zero commission
+          </div>
+        </div>
+
+        <!-- Quick Info Cards -->
+        <aside style="display:flex;flex-direction:column">
+          <div class="info-card">
+            <div class="info-card-title">₹0 – Zero listing fees</div>
+            <div class="info-card-desc">List your products for free. No hidden charges, no commissions.</div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">Location-first search</div>
+            <div class="info-card-desc">Find fresh produce near you. Filter by distance, category & availability.</div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">Direct communication</div>
+            <div class="info-card-desc">Contact farmers directly. No middlemen, better prices for everyone.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-soft container">
+      <div class="about">
+        <div>
+          <h2>About Green Trade Network</h2>
+          <p style="color:rgba(233,245,239,0.95);line-height:1.7;font-size:1.05rem">
+            Green Trade Network is a lightweight marketplace platform designed to let farmers list produce directly for local buyers. 
+            We focus on transparency, local economies, and reducing food miles. Farmers can add listings with product details, 
+            harvest dates, prices, location and photos. Buyers can filter by location and category, view farmer profiles and 
+            contact them directly.
+          </p>
+
+          <h3>Why Green Trade Network?</h3>
+          <ul>
+            <li>🌱 <strong>Fair prices</strong> by eliminating middlemen</li>
+            <li>🌍 <strong>Local consumption</strong> reduces carbon footprint</li>
+            <li>📱 <strong>Easy-to-use</strong> listing tools for farmers</li>
+            <li>📍 <strong>Location-based</strong> discovery for buyers</li>
+            <li>🤝 <strong>Direct connection</strong> between producers and consumers</li>
+          </ul>
+        </div>
+        <div class="bg-photo" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container">
+      <h2>Platform Features</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h4>👨‍🌾 Farmer Dashboard</h4>
+          <p>Create and manage product listings, mark availability, upload images, and track your sales. Complete control over your marketplace presence.</p>
+        </div>
+        <div class="card">
+          <h4>🔍 Smart Search & Filters</h4>
+          <p>Search by product name, category, or location. Sort by nearest farmers, price, or freshest harvest date for the best results.</p>
+        </div>
+        <div class="card">
+          <h4>💬 Direct Contact</h4>
+          <p>Buyers contact farmers directly via phone or email. Negotiate prices, arrange pickup/delivery on your own terms.</p>
+        </div>
+        <div class="card">
+          <h4>📸 Product Gallery</h4>
+          <p>Upload high-quality photos of your produce. Showcase freshness and quality to attract more buyers.</p>
+        </div>
+        <div class="card">
+          <h4>📅 Harvest Tracking</h4>
+          <p>Display harvest and best-before dates. Buyers can find the freshest produce and plan their purchases accordingly.</p>
+        </div>
+        <div class="card">
+          <h4>🔒 Secure & Private</h4>
+          <p>Your data is protected. Authentication ensures only verified farmers can list products on the platform.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how" class="bg-soft container">
+      <h2>How It Works – Simple 4-Step Process</h2>
+      <div style="margin-top:32px;color:rgba(233,245,239,0.95);line-height:1.8;font-size:1.05rem">
+        <div style="display:grid;gap:20px">
+          <div style="display:flex;gap:16px;align-items:start">
+            <div style="min-width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2fd3b1,#0d7b5a);display:grid;place-items:center;font-weight:800;color:#052617">1</div>
+            <div>
+              <strong style="color:#e9fff3;font-size:1.2rem">Farmer Registers</strong>
+              <p style="color:rgba(233,245,239,0.9)">Create an account, add your profile details, and get verified to start selling.</p>
+            </div>
+          </div>
+          
+          <div style="display:flex;gap:16px;align-items:start">
+            <div style="min-width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2fd3b1,#0d7b5a);display:grid;place-items:center;font-weight:800;color:#052617">2</div>
+            <div>
+              <strong style="color:#e9fff3;font-size:1.2rem">Create Listing</strong>
+              <p style="color:rgba(233,245,239,0.9)">Add product name, category, price, quantity, harvest date, location, and upload photos.</p>
+            </div>
+          </div>
+          
+          <div style="display:flex;gap:16px;align-items:start">
+            <div style="min-width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2fd3b1,#0d7b5a);display:grid;place-items:center;font-weight:800;color:#052617">3</div>
+            <div>
+              <strong style="color:#e9fff3;font-size:1.2rem">Buyer Searches</strong>
+              <p style="color:rgba(233,245,239,0.9)">Buyers browse listings, filter by location and category, and find the freshest produce near them.</p>
+            </div>
+          </div>
+          
+          <div style="display:flex;gap:16px;align-items:start">
+            <div style="min-width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2fd3b1,#0d7b5a);display:grid;place-items:center;font-weight:800;color:#052617">4</div>
+            <div>
+              <strong style="color:#e9fff3;font-size:1.2rem">Complete Transaction</strong>
+              <p style="color:rgba(233,245,239,0.9)">Contact farmer directly to arrange pickup/delivery and payment. Complete freedom in transaction terms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="bg-soft container">
+      <h2>Frequently Asked Questions</h2>
+      <div style="margin-top:24px">
+        <div class="faq-item">
+          <div class="faq-q">💰 What does Green Trade Network charge?</div>
+          <div class="faq-a">Green Trade Network is completely free to use. We charge zero listing fees, no commissions, and no hidden charges. Our mission is to support farmers and local communities.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">💳 How do buyers pay farmers?</div>
+          <div class="faq-a">Green Trade Network does not process payments. Buyers and farmers arrange payment directly using their preferred method – cash, UPI, bank transfer, or any other mutually agreed method.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">✅ Is there verification for farmers?</div>
+          <div class="faq-a">Yes, farmers must register and login to create listings. This ensures accountability and builds trust between buyers and sellers.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">📍 How does location-based search work?</div>
+          <div class="faq-a">Farmers add their location when creating listings. Buyers can search and filter products based on their area to find the nearest farmers and freshest local produce.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">🚚 Does Green Trade Network handle delivery?</div>
+          <div class="faq-a">No, Green Trade Network is a listing platform. Farmers and buyers arrange pickup or delivery directly between themselves based on mutual agreement.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team/Developers Section -->
+    <section id="team" class="container">
+      <h2>Meet Our Team</h2>
+      <p style="text-align:center;color:rgba(233,245,239,0.95);font-size:1.1rem;margin-bottom:40px">
+        The passionate developers behind Green Trade Network
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+        <!-- Team member cards will be added here -->
+        <div class="card" style="text-align:center">
+          <div style="width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid rgba(47,211,177,0.3)">
+            <img src="amose-photo.jpeg" alt="Amose" style="width:100%;height:100%;object-fit:cover;object-position:center top">
+          </div>
+          <h4>Amose</h4>
+          <p style="color:rgba(233,245,239,0.7);margin-top:8px;font-size:0.95rem">4KV23CS002</p>
+          <p style="color:rgba(233,245,239,0.6);margin-top:4px;font-size:0.85rem">CSE - A | 3rd Year, 5th Sem</p>
+        </div>
+        
+        <div class="card" style="text-align:center">
+          <div style="width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid rgba(47,211,177,0.3)">
+            <img src="ashwath-photo.jpeg" alt="Ashwath V Hegde" style="width:100%;height:100%;object-fit:cover;object-position:center">
+          </div>
+          <h4>Ashwath V Hegde</h4>
+          <p style="color:rgba(233,245,239,0.7);margin-top:8px;font-size:0.95rem">4KV23CS011</p>
+          <p style="color:rgba(233,245,239,0.6);margin-top:4px;font-size:0.85rem">CSE - A | 3rd Year, 5th Sem</p>
+        </div>
+        
+        <div class="card" style="text-align:center">
+          <div style="width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid rgba(47,211,177,0.3)">
+            <img src="chethan-photo.jpeg" alt="Chethan P D" style="width:100%;height:100%;object-fit:cover;object-position:center">
+          </div>
+          <h4>Chethan P D</h4>
+          <p style="color:rgba(233,245,239,0.7);margin-top:8px;font-size:0.95rem">4KV23CS022</p>
+          <p style="color:rgba(233,245,239,0.6);margin-top:4px;font-size:0.85rem">CSE - A | 3rd Year, 5th Sem</p>
+        </div>
+        
+        <div class="card" style="text-align:center">
+          <div style="width:120px;height:120px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid rgba(47,211,177,0.3)">
+            <img src="darshan-photo.jpeg" alt="Darshan N" style="width:100%;height:100%;object-fit:cover;object-position:center top">
+          </div>
+          <h4>Darshan N</h4>
+          <p style="color:rgba(233,245,239,0.7);margin-top:8px;font-size:0.95rem">4KV23CS028</p>
+          <p style="color:rgba(233,245,239,0.6);margin-top:4px;font-size:0.85rem">CSE - A | 3rd Year, 5th Sem</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container">
+      <h2>Get in Touch</h2>
+      <p style="text-align:center;color:rgba(233,245,239,0.95);font-size:1.1rem;margin-bottom:40px">
+        Have questions or want to connect? Reach out to us!
+      </p>
+      <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap">
+        <div class="card" style="text-align:center;padding:32px;min-width:280px">
+          <div style="font-size:3rem;margin-bottom:16px">📧</div>
+          <h4>Email Us</h4>
+          <a href="mailto:support@greentradenetwork.com" style="color:#2fd3b1;text-decoration:none;font-weight:600;margin-top:12px;display:block">
+            support@greentradenetwork.com
+          </a>
+        </div>
+        
+        <div class="card" style="text-align:center;padding:32px;min-width:280px">
+          <div style="font-size:3rem;margin-bottom:16px">📱</div>
+          <h4>Follow Us</h4>
+          <a href="https://www.instagram.com/green_trade_netwrok?igsh=cmVjM2w4ZWRkYmFs" target="_blank" style="color:#2fd3b1;text-decoration:none;font-weight:600;margin-top:12px;display:block">
+            @green_trade_netwrok
+          </a>
+        </div>
+        
+        <div class="card" style="text-align:center;padding:32px;min-width:280px">
+          <div style="font-size:3rem;margin-bottom:16px">💬</div>
+          <h4>WhatsApp Channel</h4>
+          <a href="https://whatsapp.com/channel/0029VbBgmMT1noz4fT9xiG08" target="_blank" style="color:#2fd3b1;text-decoration:none;font-weight:600;margin-top:12px;display:block">
+            Join Channel
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+        <div>
+          <strong style="font-size:1.1rem">Green Trade Network</strong> – Empowering farmers, connecting communities
+        </div>
+        <div style="font-size:0.9rem;color:rgba(233,245,239,0.7)">
+          © 2025 Green Trade Network. Built with ❤️ for local farmers.
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button id="toTop" aria-label="Back to top">↑ Top</button>
+
+  <script>
+    // ---- Navigation active link highlighting ----
+    const links = document.querySelectorAll('.nav-links a[data-target]');
+    const sections = Array.from(links).map(l => document.getElementById(l.dataset.target));
+
+    function setActive() {
+      let idx = sections.findIndex(sec => {
+        if (!sec) return false;
+        const rect = sec.getBoundingClientRect();
+        return rect.top <= 140 && rect.bottom > 140;
+      });
+      links.forEach((l, i) => l.classList.toggle('active-link', i === idx));
+    }
+    window.addEventListener('scroll', setActive);
+    window.addEventListener('load', setActive);
+
+    // ---- FAQ toggle ----
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const a = q.nextElementSibling;
+        const isOpen = a.style.display === 'block';
+        // Close all FAQs
+        document.querySelectorAll('.faq-a').forEach(ans => ans.style.display = 'none');
+        // Open clicked FAQ if it was closed
+        if (!isOpen) a.style.display = 'block';
+      });
+    });
+
+    // ---- Back to top button ----
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      toTop.style.display = (window.scrollY > 400) ? 'block' : 'none';
+    });
+    toTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ---- CTA buttons - redirect to auth page ----
+    document.getElementById('getStartedNav').addEventListener('click', () => {
+      window.location.href = 'auth.html';
+    });
+    document.getElementById('getStartedBtn').addEventListener('click', () => {
+      window.location.href = 'auth.html';
+    });
+
+    // ---- Close overlay with Escape key ----
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // Future use for modals
+      }
+    });
+
+    // ---- Handle URL hash on load ----
+    if (location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+// Prisma schema for Farmer Marketplace
+// SQLite database for local development
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  password     String
+  phone        String?
+  role         String        @default("farmer") // farmer, buyer, admin
+  address      String?
+  experience   String?       // Years of farming experience
+  about        String?       // Bio/about section
+  profilePhoto String?       // Base64 encoded profile photo
+  products     Product[]
+  orders       Order[]
+  chatMessages ChatMessage[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  sellerId    String
+  seller      User      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  
+  productName String
+  category    String
+  price       Float
+  currency    String    @default("INR")
+  
+  location    String
+  description String
+  
+  // Dates
+  harvestDate String    // Store as ISO string for SQLite compatibility
+  bestBefore  String    // Store as ISO string for SQLite compatibility
+  
+  // Image stored as base64 or URL
+  image       String
+  
+  // Availability
+  available   Boolean   @default(true)
+  
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([category])
+  @@index([location])
+  @@index([available])
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  
+  buyerId    String
+  buyer      User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  quantity   Int      @default(1)
+  totalPrice Float
+  
+  // Buyer details
+  buyerName     String
+  buyerPhone    String
+  buyerAddress  String
+  
+  status     String   @default("placed") // placed, confirmed, shipped, delivered, cancelled
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@index([buyerId])
+  @@index([productId])
+  @@index([status])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  message   String   // User's question
+  response  String   // AI's response
+  
+  location  String?  // Location context
+  weather   String?  // Weather data as JSON string
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
+}

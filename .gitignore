@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Database files
+*.db
+*.db-journal
+
+# Environment variables
+.env
+
+# Backups
+backend/backups/*.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
